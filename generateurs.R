@@ -108,26 +108,37 @@ Runs <- function(x,nb)
   
   #si pretest incorrect, on fait un deuxieme test
   else{
-    Vobs <- 0
+    #on initialise a 1 car Vobs = somme des bits+1
+    Vobs <- 1
     
     for (j in 1:length(x)){
       lastBit <- 0
       bin <- binary(x[j])
       
       #on parcourt chaque bit
-      for (i in 1:32){
+      for (i in (33-nb):32){
         
-        if (i >1 && i < 32 && bin[i]!=bin[i+1]){
+        #pas le premier bit ni le dernier et bit actuel different du suivant
+        if (i >(33-nb) && i < 32 && bin[i]!=bin[i+1]){
           Vobs <- Vobs + 1 # r vaut 1
         }
+        #si c'est le dernier bit
         else if (i == 32 ){
           lastBit <- bin[i] # on sauvegarde ce bit pour une future comparaison
         }
-        else if (i == 1 && j>1){
+        #si c'est le premier bit et pas de la premiere valeur
+        else if (i == (33-nb) && j>1){
           #comparaison avec le last bit du mot precedent
           if (lastBit != bin[i]){
             Vobs <- Vobs +1
           }
+          #comparaison avec le bit suivant
+          if (bin[i] != bin[i+1]){
+            Vobs <- Vobs+1
+          }
+        }
+        #premier bit de la premiere valeur
+        else if (i==(33-nb)){
           #comparaison avec le bit suivant
           if (bin[i] != bin[i+1]){
             Vobs <- Vobs+1
@@ -139,8 +150,11 @@ Runs <- function(x,nb)
     print("valeur de Vobs")
     print(Vobs)
     
+    #nombre total de bits
+    n = nb*length(x)
+    
     #calcul de la pValeur
-    pValeur <- 2*(1-pnorm(abs(Vobs-2*nb*pi*(1-pi))/(2*sqrt(nb)*pi*(1-pi))))
+    pValeur <- 2*(1-pnorm(abs(Vobs-2*n*pi*(1-pi))/(2*sqrt(n)*pi*(1-pi))))
     
     if (pValeur < 0.01){
       print("la sequence n'est pas aleatoire")

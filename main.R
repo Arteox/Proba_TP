@@ -1,9 +1,10 @@
 library(randtoolbox)
 source('generateurs.R')
+options(digits=5)
 
-sVN <- 9271
-sMT <- 2508
-sR <- 3316
+sVN <- 926
+sMT <- 77
+sR <- 331
 Nsimu <- 1000
 Nrepet <- 1
 
@@ -35,14 +36,16 @@ plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neu
 ##  Test de fréquence Monobit
 ###########################################################
 print(Frequency(mt,32)) #nb a 14 pour VN, a 31 pour rdn et std et 32 pour mt
-
+print(Frequency(vn,14))
+print(Frequency(rnd,31))
+print(Frequency(std,31))
 
 ###########################################################
 ##  Test des runs
 ###########################################################
 #test avec une valeur predefinie
 valeur_predef = 619 #cette valeur ne valide pas le pretest
-print(Runs(valeur_predef,10))
+print(Runs(valeur_predef,10)) #valeur attendue : à 0.1472
 
 #test avec les generateurs
 print(Runs(mt,32))
