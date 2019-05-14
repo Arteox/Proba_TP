@@ -91,16 +91,18 @@ Runs <- function(x,nb)
   pi <- 0
   for (j in 1:length(x)){
     bin <- binary(x[j])
-    for (i in 1:nb){
+    for (i in (33-nb):32){
       pi <- pi + bin[i]
     }
   }
   pi <- pi/(length(x)*nb)
+  print("valeur de pi")
   print(pi)
   
   #verification que le resultat du pretest soit correct
-  to <- 2/sqrt(n)
-  if (abs(pi-0.5)>to){
+  to <- 2/sqrt(nb)
+  if (abs(pi-0.5)>=to){
+    print('pretest correct')
     return(0) #pValeur vaut 0 dans ce cas
   }
   
@@ -111,11 +113,14 @@ Runs <- function(x,nb)
     for (j in 1:length(x)){
       lastBit <- 0
       bin <- binary(x[j])
-      for (i in 1:nb){
-        if (i >1 && i < nb && bin[i]!=bin[i+1]){
+      
+      #on parcourt chaque bit
+      for (i in 1:32){
+        
+        if (i >1 && i < 32 && bin[i]!=bin[i+1]){
           Vobs <- Vobs + 1 # r vaut 1
         }
-        else if (i == nb ){
+        else if (i == 32 ){
           lastBit <- bin[i] # on sauvegarde ce bit pour une future comparaison
         }
         else if (i == 1 && j>1){
@@ -131,8 +136,34 @@ Runs <- function(x,nb)
       }
     }
     
+    print("valeur de Vobs")
+    print(Vobs)
+    
     #calcul de la pValeur
-    pValeur <- 2*(1-pnorm(abs(Vobs-2*nb*pi*(1-pi)))/(2*sqrt(nb)*pi*(1-pi)))
+    pValeur <- 2*(1-pnorm(abs(Vobs-2*nb*pi*(1-pi))/(2*sqrt(nb)*pi*(1-pi))))
+    
+    if (pValeur < 0.01){
+      print("la sequence n'est pas aleatoire")
+    }
+    else {
+      print("la sequence est aleatoire")
+    }
     return(pValeur)
   }
+}
+
+OrderTest <- function(x,D){
+  mini <- min(x)
+  maxi <- max(x)
+  for (i in 1:length(x)){
+    x[i] <- (x[i]-mini)/(maxi-mini)
+  }
+  pVal = order.test(x,d=D,echo=FALSE)$p.value
+  if (pVal < 0.01){
+    print("ce n'est pas une loi uniforme")
+  }
+  else {
+    print("c'est une loi uniforme")
+  }
+  return(pVal)
 }

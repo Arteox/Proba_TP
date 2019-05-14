@@ -36,4 +36,28 @@ plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neu
 ###########################################################
 print(Frequency(mt,32)) #nb a 14 pour VN, a 31 pour rdn et std et 32 pour mt
 
+
+###########################################################
+##  Test des runs
+###########################################################
+#test avec une valeur predefinie
+valeur_predef = 619 #cette valeur ne valide pas le pretest
+print(Runs(valeur_predef,10))
+
+#test avec les generateurs
+print(Runs(mt,32))
 print(Runs(rnd,32))
+print(Runs(std,32))
+print(Runs(vn,32))
+
+###########################################################
+##  Test d'ordre
+###########################################################
+vn <- VonNeumann(Nsimu,4,sVN)
+mt <- MersenneTwister(Nsimu,4,sMT)
+rnd <- Randu(Nsimu,sR,4)
+std <- StandardMinimal(Nsimu,sR,4)
+print(OrderTest(mt,4))
+print(OrderTest(vn,4))
+print(OrderTest(rnd,4))
+print(OrderTest(std,4))
