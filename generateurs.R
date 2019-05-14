@@ -96,13 +96,13 @@ Runs <- function(x,nb)
     }
   }
   pi <- pi/(length(x)*nb)
-  print("valeur de pi")
-  print(pi)
+  #print("valeur de pi")
+  #print(pi)
   
   #verification que le resultat du pretest soit correct
   to <- 2/sqrt(nb)
   if (abs(pi-0.5)>=to){
-    print('pretest correct')
+    #print('pretest correct')
     return(0) #pValeur vaut 0 dans ce cas
   }
   
@@ -147,8 +147,8 @@ Runs <- function(x,nb)
       }
     }
     
-    print("valeur de Vobs")
-    print(Vobs)
+    #print("valeur de Vobs")
+    #print(Vobs)
     
     #nombre total de bits
     n = nb*length(x)
@@ -156,12 +156,12 @@ Runs <- function(x,nb)
     #calcul de la pValeur
     pValeur <- 2*(1-pnorm(abs(Vobs-2*n*pi*(1-pi))/(2*sqrt(n)*pi*(1-pi))))
     
-    if (pValeur < 0.01){
-      print("la sequence n'est pas aleatoire")
-    }
-    else {
-      print("la sequence est aleatoire")
-    }
+    # if (pValeur < 0.01){
+    #   print("la sequence n'est pas aleatoire")
+    # }
+    # else {
+    #   print("la sequence est aleatoire")
+    # }
     return(pValeur)
   }
 }
@@ -173,11 +173,11 @@ OrderTest <- function(x,D){
     x[i] <- (x[i]-mini)/(maxi-mini)
   }
   pVal = order.test(x,d=D,echo=FALSE)$p.value
-  if (pVal < 0.01){
-    print("ce n'est pas une loi uniforme")
-  }
-  else {
-    print("c'est une loi uniforme")
-  }
+  # if (pVal < 0.01){
+  #   print("ce n'est pas une loi uniforme")
+  # }
+  # else {
+  #   print("c'est une loi uniforme")
+  # }
   return(pVal)
 }

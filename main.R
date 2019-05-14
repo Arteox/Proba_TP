@@ -35,10 +35,29 @@ plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neu
 ###########################################################
 ##  Test de fréquence Monobit
 ###########################################################
-print(Frequency(mt,32)) #nb a 14 pour VN, a 31 pour rdn et std et 32 pour mt
-print(Frequency(vn,14))
-print(Frequency(rnd,31))
-print(Frequency(std,31))
+#nb a 14 pour VN, a 31 pour rnd et std et 32 pour mt
+frequencyMT <- 0
+frequencyVN <- 0
+frequencyRND <- 0
+frequencySTD <- 0
+for (i in 51:150){
+  vn <- VonNeumann(Nsimu,Nrepet,i)
+  mt <- MersenneTwister(Nsimu,Nrepet,i)
+  rnd <- Randu(Nsimu,i,Nrepet)
+  std <- StandardMinimal(Nsimu,i,Nrepet)
+  frequencyMT <- frequencyMT + Frequency(mt,32)
+  frequencyVN <- frequencyVN + Frequency(vn,14)
+  frequencyRND <- frequencyRND + Frequency(rnd,31)
+  frequencySTD <- frequencySTD + Frequency(std,31)
+}
+frequencyMT <- frequencyMT/100
+frequencyVN <- frequencyVN/100
+frequencyRND <- frequencyRND/100
+frequencyMT <- frequencyMT/100
+print(frequencyMT) 
+print(frequencyVN)
+print(frequencySTD)
+print(frequencyRND)
 
 ###########################################################
 ##  Test des runs
@@ -48,19 +67,46 @@ valeur_predef = 619 #cette valeur ne valide pas le pretest
 print(Runs(valeur_predef,10)) #valeur attendue : à 0.1472
 
 #test avec les generateurs
-print(Runs(mt,32))
-print(Runs(rnd,32))
-print(Runs(std,32))
-print(Runs(vn,32))
+runsMT <- 0
+runsVN <- 0
+runsRND <- 0
+runsSTD <- 0
+for (i in 51:150){
+  vn <- VonNeumann(Nsimu,Nrepet,i)
+  mt <- MersenneTwister(Nsimu,Nrepet,i)
+  rnd <- Randu(Nsimu,i,Nrepet)
+  std <- StandardMinimal(Nsimu,i,Nrepet)
+  runsMT <- runsMT + Runs(mt,32)
+  runsVN <- runsVN + Runs(vn,14)
+  runsRND <- runsRND + Runs(rnd,31)
+  runsSTD <- runsSTD + Runs(std,31)
+}
+print(runsMT/100)
+print(runsVN/100)
+print(runsRND/100)
+print(runsSTD/100)
 
 ###########################################################
 ##  Test d'ordre
 ###########################################################
 vn <- VonNeumann(Nsimu,4,sVN)
-mt <- MersenneTwister(Nsimu,4,sMT)
-rnd <- Randu(Nsimu,sR,4)
-std <- StandardMinimal(Nsimu,sR,4)
-print(OrderTest(mt,4))
 print(OrderTest(vn,4))
-print(OrderTest(rnd,4))
-print(OrderTest(std,4))
+
+orderMT <- 0
+orderVN <- 0
+orderRND <- 0
+orderSTD <- 0
+for (i in 951:1050){
+  vn <- VonNeumann(Nsimu,4,i)
+  mt <- MersenneTwister(Nsimu,4,i)
+  rnd <- Randu(Nsimu,i,4)
+  std <- StandardMinimal(Nsimu,i,4)
+  orderMT <- orderMT + OrderTest(mt,4)
+  orderVN <- orderVN + OrderTest(vn,4)
+  orderRND <- orderRND + OrderTest(rnd,4)
+  orderSTD <- orderSTD + OrderTest(std,4)
+}
+print(orderMT/100)
+print(orderVN/100) #resultat bizarre car vn a souvent des valeurs avec que des 0 en fonction de la seed
+print(orderRND/100)
+print(orderSTD/100)
