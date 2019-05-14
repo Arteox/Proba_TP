@@ -5,55 +5,38 @@ date: "9 mai 2019"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
 Notes TP : 
 2.1 - Test visuel :
 Von Neumann : Répartition très hétérogène, l'essentiel des résultats se trouvent en dessous de 1000 (plus de la moitié d'entre eux)
 Explication : La manière de calculer les valeurs est incorrecte, oter des deux côtés du nombre des chiffres jusqu'à être dans l'intervalle {0,9999} tous les nombres composés d'un nombre de chiffres impair se retrouvent dans l'intervalle {0, 999}, ce qui explique la présence d'autant de résultats dans cet intervalle.
-
+```{r setup, include=FALSE}
+library(randtoolbox)
+source('generateurs.R')
 sVN <- 9721
 Nrepet <- 20
 Nsimu <- 1000
 vn <- VonNeumann(Nsimu,Nrepet,sVN)
 par(mfrow=c(1,1))
 hist(vn[,1],xlab='',main='Von Neumann')
+```
 
 Mersenne-Twister: Répartition homogène et étalée dans un grand intervalle (0 à 4*10^9)
 Explication : A faire 
-
+```{r setup1, include=FALSE}
+library(randtoolbox)
+source('generateurs.R')
 sMT <- 2504
 Nrepet <- 20
 Nsimu <- 1000
 mt <- MersenneTwister(Nsimu,Nrepet,sMT)
 par(mfrow=c(1,1))
 hist(mt[,1],xlab='',main='Mersenne Twister')
-
+```
 Randu : Répartition assez homogène même si l'on retrouve régulièrement des trous, étalée dans l'intervalle : (0 à 2*10^9)
 Explication : A faire
-
+```{r setup2, include=FALSE}
+library(randtoolbox)
+source('generateurs.R')
 sR <- 3333
 Nrepet <- 20
 Nsimu <- 1000
@@ -61,15 +44,18 @@ rnd <- Randu(Nsimu,sR,Nrepet)
 std <- StandardMinimal(Nsimu,sR,Nrepet)
 par(mfrow=c(1,1))
 hist(rnd[,1],xlab='',main='Randu')
+```
 
 StandardMinimal: Répartition assez homogène mais disposant de moins de "trous" que RANDU, elle est également étalée dans l'intervalle 0 à 2*10^9.
 Explication : A faire
-
+```{r setup3, include=FALSE}
+library(randtoolbox)
+source('generateurs.R')
 sR <- 3333
 Nrepet <- 20
 Nsimu <- 1000
 par(mfrow=c(1,1))
 hist(std[,1],xlab='',main='Standard Minimal')
-
+```
 
 
