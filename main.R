@@ -53,7 +53,7 @@ for (i in 51:150){
 frequencyMT <- frequencyMT/100
 frequencyVN <- frequencyVN/100
 frequencyRND <- frequencyRND/100
-frequencyMT <- frequencyMT/100
+frequencySTD<- frequencySTD/100
 print(frequencyMT) 
 print(frequencyVN)
 print(frequencySTD)

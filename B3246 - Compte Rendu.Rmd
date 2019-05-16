@@ -1,70 +1,170 @@
 ---
-title: "B3246"
+title: "Compte rendu TP - B3246"
 author: "Baptiste PAULETTO & Louis UNG"
-date: "9 mai 2019"
+date: "9 et 17 mai 2019"
 output: pdf_document
 ---
 
+# Partie 1 : Tests de générateurs pseudos aléatoires
+## Test visuel 
+Pour ce premier test, il sera réalisé sur une séquence de 1000 valeurs.
 
-
-Question 2.1 - Test visuel :
-Von Neumann : Répartition très hétérogène, l'essentiel des résultats se trouvent en dessous de 1000 (plus de la moitié d'entre eux)
-Explication : La manière de calculer les valeurs est incorrecte, oter des deux côtés du nombre des chiffres jusqu'à être dans l'intervalle {0,9999} tous les nombres composés d'un nombre de chiffres impair se retrouvent dans l'intervalle {0, 999}, ce qui explique la présence d'autant de résultats dans cet intervalle.
-```{r visuel1}
+### Question 2.1 :
+ -- Von Neumann : 
+La répartition des valeurs avec cette méthode est très hétérogène, l'essentiel des résultats se trouvent en dessous de 1000 (plus de la moitié d'entre eux).  
+Explication : La manière de calculer les valeurs est incorrecte, ôter des deux côtés du nombre des chiffres jusqu'à être dans l'intervalle {0,9999} n'est pas une bonne idée, en effet, tous les nombres composés d'un nombre de chiffres impair se retrouvent dans l'intervalle {0, 999}, ce qui explique la présence d'autant de résultats dans cet intervalle.
+```{r setupVonNeumann, include=FALSE}
 library(randtoolbox)
 source('generateurs.R')
 sVN <- 9721
 Nrepet <- 20
 Nsimu <- 1000
 vn <- VonNeumann(Nsimu,Nrepet,sVN)
-par(mfrow=c(1,1))
-hist(vn[,1],xlab='',main='Von Neumann')
-par(mfrow=c(1,2))
-plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neumann')
+```  
+``` {r}
+hist(vn[,1],xlab='',main='Histogramme des valeurs de Von Neumann')
 ```
 
-Mersenne-Twister: Répartition homogène et étalée dans un grand intervalle (0 à 4*10^9)
-Explication : A faire 
-```{r visuel2}
-library(randtoolbox)
-source('generateurs.R')
+***
+
+\newpage
+ -- Mersenne-Twister: La répartition des valeurs avec cette méthode est homogène et étalée dans un grand intervalle, {0 à 4*10^9^}, ce qui nous laisse à penser que l'on peut obtenir des valeurs allant de 0 à 2^32^ et qui se révèle particulièrement intéressant pour les questions suivantes.  
+Explication : Nous pensons que cela vient de la définition et du fonctionnement de Mersenne Twister, qui est uniformément distribué ce qui en fait un générateur de nombres pseudo-aléatoire particulièrement efficace.
+```{r setupMersenneTwister, include=FALSE}
 sMT <- 2504
 Nrepet <- 20
 Nsimu <- 1000
 mt <- MersenneTwister(Nsimu,Nrepet,sMT)
-par(mfrow=c(1,1))
-hist(mt[,1],xlab='',main='Mersenne Twister')
-par(mfrow=c(1,2))
-plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Mersenne Twister')
 ```
-Randu : Répartition assez homogène même si l'on retrouve régulièrement des trous, étalée dans l'intervalle : (0 à 2*10^9)
-Explication : A faire
-```{r visuel3}
-library(randtoolbox)
-source('generateurs.R')
+``` {r}
+hist(mt[,1],xlab='',main='Histogramme des valeurs de Mersenne Twister')
+```
+
+***
+
+\newpage
+ -- Randu : Répartition assez homogène même si l'on retrouve régulièrement des trous, étalée dans l'intervalle : (0 à 2*10^9).  
+Explication : Les résultats fournis semblent uniformément distribué mais on remarque notamment sur cet histogramme qu'il possède un certain nombre de biais, engendrant alors une génération de valeurs qui ne correspond pas à ce que l'on pourrait attendre d'un générateur pseudo-aléatoire. En effectuant quelques recherches à son sujet, nous remarquons qu'il est particulièrement décrié à cause de son manque de qualité dû aux choix des variables a, c et m.
+```{r setupRANDU, include=FALSE}
 sR <- 3333
 Nrepet <- 20
 Nsimu <- 1000
 rnd <- Randu(Nsimu,sR,Nrepet)
-std <- StandardMinimal(Nsimu,sR,Nrepet)
-par(mfrow=c(1,1))
-hist(rnd[,1],xlab='',main='Randu')
-par(mfrow=c(1,2))
-plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Randu')
+```
+``` {r}
+hist(rnd[,1],xlab='',main='Histogramme des valeurs de Randu')
 ```
 
-StandardMinimal: Répartition assez homogène mais disposant de moins de "trous" que RANDU, elle est également étalée dans l'intervalle 0 à 2*10^9.
-Explication : A faire
-```{r visuel4}
+***
+
+\newpage
+ -- StandardMinimal: Répartition assez homogène et disposant de peu de "trous" comparé à RANDU, elle est également étalée dans l'intervalle 0 à 2*10^9.  
+Explication : Les résultats obtenus avec Standard Minimal semblent plus cohérents et représentatifs de ce que pourrait renvoyer un générateur de congruence linéaire homonyme. En effet, c'est de par sa définition (soit les valeurs a, c et m choisies) qu'il nous permet d'obtenir des valeurs exploitables pour du pseudo-aléatoire.
+```{r setupStandardMinimal, include=FALSE}
 library(randtoolbox)
 source('generateurs.R')
 sR <- 3333
 Nrepet <- 20
 Nsimu <- 1000
-par(mfrow=c(1,1))
-hist(std[,1],xlab='',main='Standard Minimal')
-par(mfrow=c(1,2))
-plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Standard Minimal')
+std <- StandardMinimal(Nsimu,sR,Nrepet)
+```
+``` {r}
+hist(std[,1],xlab='',main='Histogramme des valeurs de Standard Minimal')
 ```
 
+***
+
+\newpage
+
+### Question 2.2 :
+```{r visuelVonNeumann2, include=FALSE}
+sVN <- 9721
+Nrepet <- 20
+Nsimu <- 1000
+vn <- VonNeumann(Nsimu,Nrepet,sVN)
+```
+``` {r}
+plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neumann')
+```
+-- Commentaire : 
+
+***
+
+\newpage
+```{r visuelMersenneTwister2, include=FALSE}
+sMT <- 2504
+Nrepet <- 20
+Nsimu <- 1000
+mt <- MersenneTwister(Nsimu,Nrepet,sMT)
+```
+``` {r}
+plot(mt[1:(Nsimu-1),1],mt[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Mersenne Twister')
+```
+-- Commentaire : 
+
+***
+
+\newpage
+```{r visuelRANDU2, include=FALSE}
+sR <- 3333
+Nrepet <- 20
+Nsimu <- 1000
+rnd <- Randu(Nsimu,sR,Nrepet)
+```
+``` {r}
+plot(rnd[1:(Nsimu-1),1],rnd[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Randu')
+```
+-- Commentaire : 
+
+***
+
+\newpage
+```{r visuelStandardMinimal2, include=FALSE}
+
+sR <- 3333
+Nrepet <- 20
+Nsimu <- 1000
+std <- StandardMinimal(Nsimu,sR,Nrepet)
+```
+``` {r}
+plot(std[1:(Nsimu-1),1],std[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Standard Minimal')
+```
+-- Commentaire : 
+
+***
+
+\newpage
+
+## Test de fréquence monobit
+Pour ce test de fréquence monobit ainsi que pour les deux suivants, la séquence sera de 1000 valeurs également mais avec 100 initialisations différentes.
+
+### Question 3 :
+
+Fonction utilisée | Nombre de bits considérés | Fréquence obtenue | Observation du test
+-------------| ------- | ------------- | -------------
+Von Neumann   |   14 |0.0082607 | Proportion 0/1 très très inégale
+Mersenne Twister      | 32 | 0.49102 | Proportion 0/1 très satisfaisante
+Randu    | 31 |  0.19066 | Proportion 0/1 très peu égale
+Standard Minimal   | 31   | 0.46116 | Proportion 0/1 satisfaisante
+
+-- Commentaire : Dans l'ensemble, les résultats obtenus confirment nos attentes par rapport au test précédemment réalisé, en effet, les fonctions Mersenne Twister et Standard Minimal sont en tête du classement avec respectivement 0.49102 et 0.46116 soit quasiment une proportion de bit à 0 et 1 équivalente.  
+De plus, notre hypothèse concernant rendu se confirme, la proportion est tout à fait inégale et on se rend véritablement compte qu'il ne peut faire office de générateur de pseudo-aléatoire convenablement.  
+Le cas de Von Neumann était déjà écarté, mais ce n'est qu'une confirmation de plus concernant son incapacité à produire du pseudo-aléatoire de qualité.
+
+## Test des runs
+
+### Question 4 :
+
+Fonction utilisée | Nombre de bits considérés | Fréquence obtenue | Observation du test
+-------------| ------- | ------------- | -------------
+Von Neumann   |   14 |0.0082607 | 
+Mersenne Twister      | 32 | 0.49102 | 
+Randu    | 31 |  0.19066 | 
+Standard Minimal   | 31   | 0.46116 |
+
+\newpage
+
+## Test d'ordre
+
+### Question 5 :
 
