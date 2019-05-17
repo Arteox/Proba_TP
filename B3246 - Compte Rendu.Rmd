@@ -3,19 +3,17 @@ title: "Compte rendu TP - B3246"
 author: "Baptiste PAULETTO & Louis UNG"
 date: "9 et 17 mai 2019"
 output:
-  html_document:
-    df_print: paged
   pdf_document: default
 ---
 
-# Partie 1 : Tests de générateurs pseudos aléatoires
+# Partie 1 : Tests de gÃ©nÃ©rateurs pseudos alÃ©atoires
 ## Test visuel 
-Pour ce premier test, il sera réalisé sur une séquence de 1000 valeurs.
+Pour ce premier test, il sera rÃ©alisÃ© sur une sÃ©quence de 1000 valeurs.
 
 ### Question 2.1 :
  -- Von Neumann : 
-La répartition des valeurs avec cette méthode est très hétérogène, l'essentiel des résultats se trouvent en dessous de 1000 (plus de la moitié d'entre eux).  
-Explication : La manière de calculer les valeurs est incorrecte, Ã´ter des deux cÃ´tés du nombre des chiffres jusqu'à Ãªtre dans l'intervalle {0,9999} n'est pas une bonne idée, en effet, tous les nombres composés d'un nombre de chiffres impair se retrouvent dans l'intervalle {0, 999}, ce qui explique la présence d'autant de résultats dans cet intervalle.
+La rÃ©partition des valeurs avec cette mÃ©thode est trÃ©s hÃ©tÃ©rogÃ¨ne, l'essentiel des rÃ©sultats se trouvent en dessous de 1000 (plus de la moitiÃ© d'entre eux).  
+Explication : La maniÃ¨re de calculer les valeurs est incorrecte, Ã´ter des deux cÃ´tÃ©s du nombre des chiffres jusqu'Ã  Ãªtre dans l'intervalle [0,9999] n'est pas une bonne idÃ©e, en effet, tous les nombres composÃ©s d'un nombre de chiffres impair se retrouvent dans l'intervalle {0, 999}, ce qui explique la prÃ©sence d'autant de rÃ©sultats dans cet intervalle.
 ```{r setupVonNeumann, include=FALSE}
 library(randtoolbox)
 source('generateurs.R')
@@ -31,8 +29,8 @@ hist(vn[,1],xlab='',main='Histogramme des valeurs de Von Neumann')
 ***
 
 \newpage
- -- Mersenne-Twister: La répartition des valeurs avec cette méthode est homogène et étalée dans un grand intervalle, {0 à 4*10^9^}, ce qui nous laisse à penser que l'on peut obtenir des valeurs allant de 0 à 2^32^ et qui se révèle particulièrement intéressant pour les questions suivantes.  
-Explication : Nous pensons que cela vient de la définition et du fonctionnement de Mersenne Twister, qui est uniformément distribué ce qui en fait un générateur de nombres pseudo-aléatoire particulièrement efficace.
+ -- Mersenne-Twister: La rÃ©partition des valeurs avec cette mÃ©thode est homogÃ¨ne et Ã©talÃ©e dans un grand intervalle, [0 4*10^9^], ce qui nous laisse Ã  penser que l'on peut obtenir des valeurs allant de 0 Ã  2^32^ et qui se rÃ©vÃ©le particuliÃ©rement intÃ©ressant pour les questions suivantes.  
+Explication : Nous pensons que cela vient de la dÃ©finition et du fonctionnement de Mersenne Twister, qui est uniformÃ©ment distribuÃ© ce qui en fait un gÃ©nÃ©rateur de nombres pseudo-alÃ©atoire particuliÃ¨rement efficace.
 ```{r setupMersenneTwister, include=FALSE}
 sMT <- 2504
 Nrepet <- 20
@@ -46,8 +44,8 @@ hist(mt[,1],xlab='',main='Histogramme des valeurs de Mersenne Twister')
 ***
 
 \newpage
- -- Randu : Répartition assez homogène mÃªme si l'on retrouve régulièrement des trous, étalée dans l'intervalle : (0 à 2*10^9).  
-Explication : Les résultats fournis semblent uniformément distribué mais on remarque notamment sur cet histogramme qu'il possède un certain nombre de biais, engendrant alors une génération de valeurs qui ne correspond pas à ce que l'on pourrait attendre d'un générateur pseudo-aléatoire. En effectuant quelques recherches à son sujet, nous remarquons qu'il est particulièrement décrié à cause de son manque de qualité dÃ» aux choix des variables a, c et m.
+ -- Randu : RÃ©partition assez homogÃ©ne mÃªme si l'on retrouve rÃ©guliÃ¨rement des trous, Ã©talÃ©e dans l'intervalle [0; 2*10^9].  
+Explication : Les rÃ©sultats fournis semblent uniformÃ©ment distribuÃ©s mais on remarque notamment sur cet histogramme qu'il possÃ©de un certain nombre de biais, engendrant alors une gÃ©nÃ©ration de valeurs qui ne correspondent pas Ã  ce que l'on pourrait attendre d'un gÃ©nÃ©rateur pseudo-alÃ©atoire. En effectuant quelques recherches Ã  son sujet, nous remarquons qu'il est particuliÃ©rement dÃ©criÃ© Ã  cause de son manque de qualitÃ© dÃ» aux choix des variables a, c et m.
 ```{r setupRANDU, include=FALSE}
 sR <- 3333
 Nrepet <- 20
@@ -61,8 +59,8 @@ hist(rnd[,1],xlab='',main='Histogramme des valeurs de Randu')
 ***
 
 \newpage
- -- StandardMinimal: Répartition assez homogène et disposant de peu de "trous" comparé à RANDU, elle est également étalée dans l'intervalle 0 à 2*10^9.  
-Explication : Les résultats obtenus avec Standard Minimal semblent plus cohérents et représentatifs de ce que pourrait renvoyer un générateur de congruence linéaire homonyme. En effet, c'est de par sa définition (soit les valeurs a, c et m choisies) qu'il nous permet d'obtenir des valeurs exploitables pour du pseudo-aléatoire.
+ -- StandardMinimal: RÃ©partition assez homogÃ¨ne et disposant de peu de "trous" comparÃ© Ã  RANDU, elle est Ã©galement Ã©talÃ©e dans l'intervalle [0;2*10^9].  
+Explication : Les rÃ©sultats obtenus avec Standard Minimal semblent plus cohÃ©rents et reprÃ©sentatifs de ce que pourrait renvoyer un gÃ©nÃ©rateur de congruence linÃ©aire homonyme. En effet, c'est de par sa dÃ©finition (soit les valeurs a, c et m choisies) qu'il nous permet d'obtenir des valeurs exploitables pour du pseudo-alÃ©atoire.
 ```{r setupStandardMinimal, include=FALSE}
 library(randtoolbox)
 source('generateurs.R')
@@ -89,8 +87,9 @@ vn <- VonNeumann(Nsimu,Nrepet,sVN)
 ``` {r}
 plot(vn[1:(Nsimu-1),1],vn[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Von Neumann')
 ```
--- Commentaire : On observe des "blancs" dans la représentation générée, traduisant ainsi une répartition non homogène des valeurs dans l'espace des valeurs disponibles (l'intervalle [0;9999]). De plus, on peut aussi en déduire que V(n)
-et V(n+1) ne sont pas totalement indépendants l'un de l'autre : on le constate par la présence d'amas de points.
+-- Commentaire : On observe des "blancs" dans la reprÃ©sentation gÃ©nÃ©rÃ©e, traduisant ainsi une rÃ©partition non homogÃ©ne des valeurs dans l'espace des valeurs disponibles (l'intervalle [0;9999]). De plus, on peut aussi en dÃ©duire que V(n)
+et V(n+1) ne sont pas totalement indÃ©pendants l'un de l'autre : on le constate par la prÃ©sence d'amas de points.
+
 ***
 
 \newpage
@@ -103,7 +102,7 @@ mt <- MersenneTwister(Nsimu,Nrepet,sMT)
 ``` {r}
 plot(mt[1:(Nsimu-1),1],mt[2:Nsimu,1],xlab='MT(i)', ylab='MT(i+1)', main='Mersenne Twister')
 ```
--- Commentaire : Contrairement à la représentation précédente, nous avons tous les points qui sont répartis de manière homogène dans l'espace des valeurs disponibles (l'intervalle [0;2^32^-1]). On remarque donc une indépendance entre MT(i) et MT(i+1).
+-- Commentaire : Contrairement Ã  la reprÃ©sentation prÃ©cÃ©dente, nous avons tous les points qui sont rÃ©partis de maniÃ©re homogÃ¨ne dans l'espace des valeurs disponibles (l'intervalle [0;2^32^-1]). On remarque donc une indÃ©pendance entre MT(i) et MT(i+1).
 
 ***
 
@@ -117,7 +116,7 @@ rnd <- Randu(Nsimu,sR,Nrepet)
 ``` {r}
 plot(rnd[1:(Nsimu-1),1],rnd[2:Nsimu,1],xlab='RND(i)', ylab='RND(i+1)', main='Randu')
 ```
--- Commentaire : D'après les résultats de ce test, Randu semble a priori être un générateur de pseudo-aléatoire de bonne qualité puisque la répartition des points est homogène dans l'espace des valeurs disponibles (l'intervalle [0;2^31^]). On pourrait donc supposer une indépendance entre RND(i) et RND(i+1).
+-- Commentaire : D'aprÃ©s les rÃ©sultats de ce test, Randu semble a priori Ãªtre un gÃ©nÃ©rateur de pseudo-alÃ©atoire de bonne qualitÃ© puisque la rÃ©partition des points est homogÃ©ne dans l'espace des valeurs disponibles (l'intervalle [0;2^31^]). On pourrait donc supposer une indÃ©pendance entre RND(i) et RND(i+1).
 
 ***
 
@@ -132,42 +131,42 @@ std <- StandardMinimal(Nsimu,sR,Nrepet)
 ``` {r}
 plot(std[1:(Nsimu-1),1],std[2:Nsimu,1],xlab='STD(i)', ylab='STD(i+1)', main='Standard Minimal')
 ```
--- Commentaire : Nous avons tous les points qui sont répartis de manière homogène dans l'espace des valeurs disponibles (l'intervalle [0;2^31^-1]). On remarque donc une indépendance entre STD(i) et STD(i+1).
+-- Commentaire : Nous avons tous les points qui sont rÃ©partis de maniÃ¨re homogÃ¨ne dans l'espace des valeurs disponibles (l'intervalle [0;2^31^-1]). On remarque donc une indÃ©pendance entre STD(i) et STD(i+1).
 
 
 ***
 
 \newpage
 
-## Test de fréquence monobit
-Pour ce test de fréquence monobit ainsi que pour les deux suivants, la séquence sera de 1000 valeurs également mais avec 100 initialisations différentes.
+## Test de frÃ©quence monobit
+Pour ce test de frÃ©quence monobit ainsi que pour les deux suivants, la sÃ©quence sera de 1000 valeurs comme le prÃ©cÃ©dent, mais avec 100 initialisations diffÃ©rentes.
 
 ### Question 3 :
 
-Fonction utilisée | Nombre de bits considérés | Fréquence obtenue | Observation du test
+Fonction utilisÃ©e | Nombre de bits considÃ©rÃ©s | FrÃ©quence obtenue | Observation du test
 -------------| ------- | ------------- | -------------
-Von Neumann   |   14 |0.0082607 | Proportion 0/1 très très inégale
-Mersenne Twister      | 32 | 0.49102 | Proportion 0/1 très satisfaisante
-Randu    | 31 |  0.19066 | Proportion 0/1 très peu égale
+Von Neumann   |   14 |0.0082607 | Proportion 0/1 trÃ©s trÃ©s inÃ©gale
+Mersenne Twister      | 32 | 0.49102 | Proportion 0/1 trÃ©s satisfaisante
+Randu    | 31 |  0.19066 | Proportion 0/1 trÃ©s peu Ã©gale
 Standard Minimal   | 31   | 0.46116 | Proportion 0/1 satisfaisante
 
--- Commentaire :  Dans l'ensemble, les résultats obtenus confirment nos attentes par rapport au test précédemment réalisé, en effet, les fonctions Mersenne Twister et Standard Minimal sont en tÃªte du classement avec respectivement 0.49102 et 0.46116 soit quasiment une proportion de bit à 0 et 1 équivalente.  
-De plus, notre hypothèse concernant rendu se confirme, la proportion est tout à fait inégale et on se rend véritablement compte qu'il ne peut faire office de générateur de pseudo-aléatoire convenablement.  
-Le cas de Von Neumann était déjà écarté, mais ce n'est qu'une confirmation de plus concernant son incapacité à produire du pseudo-aléatoire de qualité.
+-- Commentaire :  Dans l'ensemble, les rÃ©sultats obtenus confirment nos attentes par rapport au test prÃ©cÃ©demment rÃ©alisÃ©, en effet, les fonctions Mersenne Twister et Standard Minimal sont en tÃªte du classement avec respectivement 0.49102 et 0.46116 soit quasiment une proportion de bit Ã© 0 et 1 Ã©quivalente.  
+De plus, notre hypothÃ©se concernant randu se confirme, la proportion est tout Ã  fait inÃ©gale et on se rend vÃ©ritablement compte qu'il ne peut jouer le rÃ´le de gÃ©nÃ©rateur de pseudo-alÃ©atoire convenablement.  
+Le cas de Von Neumann Ã©tait dÃ©jÃ  Ã©cartÃ©, mais ce n'est qu'une confirmation de plus concernant son incapacitÃ© Ã  produire du pseudo-alÃ©atoire de qualitÃ©.
 
 ## Test des runs
 
 ### Question 4 :
 
-Fonction utilisée | Nombre de bits considérés | Fréquence obtenue | Observation du test
+Fonction utilisÃ©e | Nombre de bits considÃ©rÃ©s | FrÃ©quence obtenue | Observation du test
 -------------| ------- | ------------- | -------------
-Von Neumann   |   14 | 4.658169e-08 | Inférieur à 0.01
-Mersenne Twister      | 32 | 0.5111088 | Supérieur à 0.01
-Randu    | 31 |  0.3616877 | Supérieur à 0.01
-Standard Minimal   | 31   | 0.5863881 | Supérieur à 0.01
+Von Neumann   |   14 | 4.658169e-08 | InfÃ©rieur Ã  0.01
+Mersenne Twister      | 32 | 0.5111088 | SupÃ©rieur Ã  0.01
+Randu    | 31 |  0.3616877 | SupÃ©rieur Ã  0.01
+Standard Minimal   | 31   | 0.5863881 | SupÃ©rieur Ã  0.01
 
--- Commentaire :  Lors de ce test des runs, on cherche à connaÃ®tre la longueur des "runs", soit les suites consécutives de 0 ou de 1. Afin de s'assurer de la qualité de l'aléatoire dans la séquence de bits observée, on doit obtenir un résultat à 0.01.  
-A nouveau, Mersenne Twister ainsi que Standard Minimal sont en tÃªte du classement mais Randu retourne lui aussi une valeur bien supérieure à 0.01 ce qui ne nous permet alors pas de l'eloigner dans le cadre de ce test. Von Neumann, fidèle à lui mÃªme, prouve une nouvelle fois la mauvaise qualité des séquences qu'il produit avec un résultat très inférieur à 0.01.
+-- Commentaire :  Lors de ce test des runs, on cherche Ã  connaÃ®tre la longueur des "runs", soit les suites consÃ©cutives de 0 ou de 1. Afin de s'assurer de la qualitÃ© de l'alÃ©atoire dans la sÃ©quence de bits observÃ©e, on doit obtenir un rÃ©sultat supÃ©rieur Ã  0.01.  
+A nouveau, Mersenne Twister ainsi que Standard Minimal sont en tÃªte du classement mais Randu retourne lui aussi une valeur bien supÃ©rieure Ã  0.01 ce qui ne nous permet alors pas de l'eloigner dans le cadre de ce test. Von Neumann, fidÃ¨le Ã  lui mÃªme, prouve une nouvelle fois la mauvaise qualitÃ© des sÃ©quences qu'il produit avec un rÃ©sultat trÃ©s infÃ©rieur Ã  0.01.
 
 \newpage
 
@@ -175,14 +174,14 @@ A nouveau, Mersenne Twister ainsi que Standard Minimal sont en tÃªte du classeme
 
 ### Question 5 :
 
-Fonction utilisée | Fréquence obtenue | Observation du test
+Fonction utilisÃ©e | FrÃ©quence obtenue | Observation du test
 -------------| ------------- | -------------
-Von Neumann   | NA / 0 | Inférieur à 0.01
-Mersenne Twister      |  0.49| Supérieur à 0.01
-Randu    |  0.46| Supérieur à 0.01
-Standard Minimal   |  0.48 | Supérieur à 0.01
+Von Neumann   | NA / 0 | InfÃ©rieur Ã  0.01
+Mersenne Twister      |  0.49| SupÃ©rieur Ã  0.01
+Randu    |  0.46| SupÃ©rieur Ã  0.01
+Standard Minimal   |  0.48 | SupÃ©rieur Ã  0.01
 
--- Commentaire :  Dans ce test d'ordre qui vise à étudier directement la suite de nombre obtenus et non les bits générés, nous fixons la valeur de d à 4. et de manière conforme au test précédent, nous retrouvons des valeurs supérieures à 1% pour Mersenne Twitser, Randu et Standard Minimal et une valeur non attribuée pour Von Neumann et parfois 0. Il est intéressant de remarquer que Randu passe également ce test et pourrait nous laisser penser qu'il est, en réalité, capable de produire des suite de nombres conforme au pseudo-aléatoire si nous n'avions pas réalisé le premier test de fréquence monobit. 
+-- Commentaire :  Dans ce test d'ordre qui vise Ã  Ã©tudier directement la suite de nombre obtenus et non les bits gÃ©nÃ©rÃ©s, nous fixons la valeur de d Ã  4. De maniÃ¨re conforme au test prÃ©cÃ©dent, nous retrouvons des valeurs supÃ©rieures Ã  1% pour Mersenne Twitser, Randu et Standard Minimal et une valeur non attribuÃ©e pour Von Neumann et parfois 0. Il est intÃ©ressant de remarquer que Randu passe Ã©galement ce test et pourrait nous laisser penser qu'il est, en rÃ©alitÃ©, capable de produire des suite de nombres conforme au pseudo-alÃ©atoire si nous n'avions pas rÃ©alisÃ© le premier test de frÃ©quence monobit. 
 
 \newpage
 
@@ -192,27 +191,29 @@ Standard Minimal   |  0.48 | Supérieur à 0.01
 
 ### Question 6 :
 
-La fonction FileMM1 construite a pour but de modéliser une file d'attente avec entrée et sortie.
- Trois principes sont alors fixés :   
-  -- Les entrées et sorties sont réalisées en file, une personne après l'autre.
-  -- La loi qui représente l'évolution du système est considérée comme exponentielle.
-  -- Les temps sont exprimés en minutes.
+La fonction FileMM1 construite a pour but de modÃ©liser une file d'attente avec entrÃ©e et sortie.
+ Trois principes sont alors fixÃ©s :    
+  -- Les entrÃ©es et sorties sont rÃ©alisÃ©es en file, une personne aprÃ¨s l'autre.  
+  -- La loi qui reprÃ©sente l'Ã©volution du systÃ©me est considÃ©rÃ©e comme exponentielle.  
+  -- Les temps sont exprimÃ©s en minutes.  
   
 ### Question 7 :
 
-La représentation qui suit est celle de l'évolution du nombre de clients en fonction du temps qui passe.
-Le temps entre deux personnes qui arrivent dans le système est choisi aléatoirement (de manière exponentielle) grâce à la fonction rexp().  
+La reprÃ©sentation qui suit est celle de l'Ã©volution du nombre de clients en fonction du temps qui passe.
+Le temps entre deux personnes qui arrivent dans le systÃ¨me est choisi alÃ©atoirement (de maniÃ¨re exponentielle) grÃ¢ce Ã  la fonction rexp().  
 Pour des valeurs choisies arbitrairement d'alpha (8), mu (12) et D (10), nous obtenons l'affichage suivant :
 ```{r setupQuestion7, include=FALSE}
   source('files.R')
   liste <- FileMM1(8,12,10)
 ```
 ```{r visuelQuestion7}
-  plot(EvolClients(liste),type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système')
+  plot(EvolClients(liste),type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le systÃ©me')
 ```
 
+\newpage
+
 ### Application
-Les quatres graphes suivants représententent tous l'activité de la file d'attente pendant 12 heures avec, en moyenne 15 personnes qui partent par heure et un nombre de personnes/heure qui arrivent différent, respectivement les nombres de personnes sont 8, 14, 15 et 20.
+Les quatres graphes suivants reprÃ©sententent tous l'activitÃ© de la file d'attente pendant 12 heures avec, en moyenne 15 personnes qui partent par heure et un nombre de personnes/heure qui arrivent diffÃ©rent, respectivement les nombres de personnes sont 8, 14, 15 et 20.
 
 ```{r setupApplication, include=FALSE}
 lambda <- 8/60
@@ -225,49 +226,54 @@ liste <- FileMM1(lambda,mu,D)
 evol <- EvolClients(liste)
 ```
 ```{r visuelApplication}
-plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', main='Représentation 8 personnes/heure')
+plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le systÃ¨me', main='ReprÃ©sentation 8 personnes/heure')
 ```
 -- Commentaire :  
-Après avoir réalisé plusieurs observations des graphiques obtenus avec ces paramètres, nous remarquons une convergence en probabilité de l'évolution du nombre de client en fonction du temps.
+AprÃ¨s avoir rÃ©alisÃ© plusieurs observations des graphiques obtenus avec ces paramÃ¨tres, nous remarquons une convergence en probabilitÃ© de l'Ã©volution du nombre de client en fonction du temps.
 
 
 ***
+
+\newpage
 
 ```{r setupApplication2, include=FALSE}
 liste <- FileMM1(lambda2,mu,D)
 evol <- EvolClients(liste)
 ```
 ```{r visuelApplication2}
-plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', main='Représentation 14 personnes/heure')
+plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le systÃ¨me', main='ReprÃ©sentation 14 personnes/heure')
 ```
 -- Commentaire :
-Après avoir réalisé plusieurs observations des graphiques obtenus avec ces paramètres, nous remarquons, comme pour le précent, une convergence en probabilité de l'évolution du nombre de client en fonction du temps. Cependant, le nombre de client maximal est souvent beaucoup plus élevé que pour les paramètres précédents (mais on pouvait s'y attendre puisqu'on ne fait qu'augmenter le nombre de personnes qui arrivent chaque heure).
+AprÃ¨s avoir rÃ©alisÃ© plusieurs observations des graphiques obtenus avec ces paramÃ¨tres, nous remarquons, comme pour le prÃ©cÃ©dent, une convergence en probabilitÃ© de l'Ã©volution du nombre de client en fonction du temps. Cependant, le nombre de client maximal est souvent beaucoup plus Ã©levÃ© que pour les paramÃ©tres prÃ©cÃ©dents (mais on pouvait s'y attendre puisqu'on ne fait qu'augmenter le nombre de personnes qui arrivent chaque heure).
 
 ***
 
+\newpage
 ```{r setupApplication3, include=FALSE}
 liste <- FileMM1(lambda3,mu,D)
 evol <- EvolClients(liste)
 ```
 ```{r visuelApplication3}
-plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', main='Représentation 15 personnes/heure')
+plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le systÃ¨me', main='ReprÃ©sentation 15 personnes/heure')
 ```
 -- Commentaire :
-Après avoir réalisé plusieurs observations du graphique obtenu avec ces paramètres, nous ne sommes pas parvenus à en déduire soit une convergence, soit une divergence en probabilité, nous pensons alors qu'il est impossible de prédire comment va varier cette évolution. Nous nous retrouvons alors dans l'incapacité d'estimer le nombre de clients à chauqe instant t, ce qui était possible avec les deux représentations précédentes.
+AprÃ¨s avoir rÃ©alisÃ© plusieurs observations du graphique obtenu avec ces paramÃ¨tres, nous ne sommes pas parvenus Ã  en dÃ©duire soit une convergence, soit une divergence en probabilitÃ©, nous pensons alors qu'il est impossible de prÃ©dire comment va varier cette Ã©volution. Nous nous retrouvons alors dans l'incapacitÃ© d'estimer le nombre de clients Ã  chaque instant t, ce qui Ã©tait possible avec les deux reprÃ©sentations prÃ©cÃ©dentes.
 
 ***
 
+\newpage
 ```{r setupApplication4, include=FALSE}
 liste <- FileMM1(lambda4,mu,D)
 evol <- EvolClients(liste)
 ```
 ```{r visuelApplication4}
-plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', main='Représentation 20 personnes/heure')
+plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le systÃ¨me', main='ReprÃ©sentation 20 personnes/heure')
 ```
 -- Commentaire :
-Après avoir réalisé plusieurs observations du graphique obtenu avec ces paramètres, nous sommes arrivés à la conclusion que l'évolution du nombre de clients en fonction diverge en probabilité. En effet, il y a beaucoup plus d'arrivées que de départs et la file d'attente finit par être saturée, ce qui augmente de manière significative le nombre de clients présents dans le système au cours du temps.
+AprÃ¨s avoir rÃ©alisÃ© plusieurs observations du graphique obtenu avec ces paramÃ¨tres, nous sommes arrivÃ©s Ã  la conclusion que l'Ã©volution du nombre de clients en fonction du temps diverge en probabilitÃ©. En effet, il y a beaucoup plus d'arrivÃ©es que de dÃ©parts et la file d'attente finit par Ã©tre saturÃ©e, ce qui augmente de maniÃ©re significative le nombre de clients prÃ©sents dans le systÃ©me au cours du temps.
 
 ***
+
 
 ### Question 8
 
@@ -277,7 +283,7 @@ Lambda | E(N) exp | E(N) th | E(W) exp | E(W) th
 14  |  14.27 | 14.00 |  61.37 | 60.00
 
 -- Commentaire :
-Nous ne calculons pas les valeurs pour lambda>=15 car cela impliquerait que alpha soit supérieur ou égal à 1. Cela ne nous intéresse pas car nous quitterions le régime stationnaire.
-Les valeurs théoriques sont calculées à partir de la formule de Little : E(N) = alpha/(1-alpha) et E(W) = E(N)/lambda.
-Aussi, pour calculer les valeurs expérimentales, nous avons augmenté la période de temps sur 1200 heures afin d'avoir des valeurs plus fiables (plus le nombre de répétitions augmente, plus les valeurs expériementales convergent vers les valeurs théoriques).
+Nous ne calculons pas les valeurs pour $lambda >= 15$ car cela impliquerait que alpha soit supÃ©rieur ou Ã©gal Ã  1. Cela ne nous intÃ©resse pas car nous quitterions le rÃ©gime stationnaire.
+Les valeurs thÃ©oriques sont calculÃ©es Ã  partir de la formule de Little : E(N) = alpha/(1-alpha) et E(W) = E(N)/lambda.
+Aussi, pour calculer les valeurs expÃ©rimentales, nous avons augmentÃ© la pÃ©riode de temps sur 1200 heures afin d'avoir des valeurs plus fiables (plus le nombre de rÃ©pÃ©titions augmente, plus les valeurs expÃ©riementales convergent vers les valeurs thÃ©oriques).
 

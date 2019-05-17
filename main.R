@@ -118,11 +118,15 @@ source('files.R')
 options(digits=5)
 
 #question 6
+
 liste <- FileMM1(8,12,10)
+
 #question 7
+
 plot(EvolClients(liste),type='s')
 
 #application
+
 lambda <- 14/60
 mu <- 15/60
 D <- 60*1200
@@ -132,6 +136,7 @@ evol <- EvolClients(liste)
 plot(evol,type='s')
 
 #question 8
+
 #calcul du nombre moyen de clients et du temps de presence moyen
 moy_nb_clients <- 0
 moy_tps_presence <- 0
