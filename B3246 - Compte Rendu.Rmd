@@ -98,7 +98,7 @@ Nsimu <- 1000
 mt <- MersenneTwister(Nsimu,Nrepet,sMT)
 ```
 ``` {r}
-plot(mt[1:(Nsimu-1),1],mt[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Mersenne Twister')
+plot(mt[1:(Nsimu-1),1],mt[2:Nsimu,1],xlab='MT(i)', ylab='MT(i+1)', main='Mersenne Twister')
 ```
 -- Commentaire : 
 
@@ -112,7 +112,7 @@ Nsimu <- 1000
 rnd <- Randu(Nsimu,sR,Nrepet)
 ```
 ``` {r}
-plot(rnd[1:(Nsimu-1),1],rnd[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Randu')
+plot(rnd[1:(Nsimu-1),1],rnd[2:Nsimu,1],xlab='RND(i)', ylab='RND(i+1)', main='Randu')
 ```
 -- Commentaire : 
 
@@ -127,7 +127,7 @@ Nsimu <- 1000
 std <- StandardMinimal(Nsimu,sR,Nrepet)
 ```
 ``` {r}
-plot(std[1:(Nsimu-1),1],std[2:Nsimu,1],xlab='VN(i)', ylab='VN(i+1)', main='Standard Minimal')
+plot(std[1:(Nsimu-1),1],std[2:Nsimu,1],xlab='STD(i)', ylab='STD(i+1)', main='Standard Minimal')
 ```
 -- Commentaire : 
 
@@ -147,7 +147,7 @@ Mersenne Twister      | 32 | 0.49102 | Proportion 0/1 très satisfaisante
 Randu    | 31 |  0.19066 | Proportion 0/1 très peu égale
 Standard Minimal   | 31   | 0.46116 | Proportion 0/1 satisfaisante
 
--- Commentaire : Dans l'ensemble, les résultats obtenus confirment nos attentes par rapport au test précédemment réalisé, en effet, les fonctions Mersenne Twister et Standard Minimal sont en tête du classement avec respectivement 0.49102 et 0.46116 soit quasiment une proportion de bit à 0 et 1 équivalente.  
+-- Commentaire :  Dans l'ensemble, les résultats obtenus confirment nos attentes par rapport au test précédemment réalisé, en effet, les fonctions Mersenne Twister et Standard Minimal sont en tête du classement avec respectivement 0.49102 et 0.46116 soit quasiment une proportion de bit à 0 et 1 équivalente.  
 De plus, notre hypothèse concernant rendu se confirme, la proportion est tout à fait inégale et on se rend véritablement compte qu'il ne peut faire office de générateur de pseudo-aléatoire convenablement.  
 Le cas de Von Neumann était déjà écarté, mais ce n'est qu'une confirmation de plus concernant son incapacité à produire du pseudo-aléatoire de qualité.
 
@@ -157,10 +157,13 @@ Le cas de Von Neumann était déjà écarté, mais ce n'est qu'une confirmation 
 
 Fonction utilisée | Nombre de bits considérés | Fréquence obtenue | Observation du test
 -------------| ------- | ------------- | -------------
-Von Neumann   |   14 |0.0082607 | 
-Mersenne Twister      | 32 | 0.49102 | 
-Randu    | 31 |  0.19066 | 
-Standard Minimal   | 31   | 0.46116 |
+Von Neumann   |   14 | 4.658169e-08 | Inférieur à 0.01
+Mersenne Twister      | 32 | 0.5111088 | Supérieur à 0.01
+Randu    | 31 |  0.3616877 | Supérieur à 0.01
+Standard Minimal   | 31   | 0.5863881 | Supérieur à 0.01
+
+-- Commentaire :  Lors de ce test des runs, on cherche à connaître la longueur des "runs", soit les suites consécutives de 0 ou de 1. Afin de s'assurer de la qualité de l'aléatoire dans la séquence de bits observée, on doit obtenir un résultat à 0.01.  
+A nouveau, Mersenne Twister ainsi que Standard Minimal sont en tête du classement mais Randu retourne lui aussi une valeur bien supérieure à 0.01 ce qui ne nous permet alors pas de l'eloigner dans le cadre de ce test. Von Neumann, fidèle à lui même, prouve une nouvelle fois la mauvaise qualité des séquences qu'il produit avec un résultat très inférieur à 0.01.
 
 \newpage
 
@@ -168,3 +171,11 @@ Standard Minimal   | 31   | 0.46116 |
 
 ### Question 5 :
 
+Fonction utilisée | Fréquence obtenue | Observation du test
+-------------| ------------- | -------------
+Von Neumann   | NA / 0 | Inférieur à 0.01
+Mersenne Twister      |  0.49| Supérieur à 0.01
+Randu    |  0.46| Supérieur à 0.01
+Standard Minimal   |  0.48 | Supérieur à 0.01
+
+-- Commentaire :  Dans ce test d'ordre qui vise à étudier directement la suite de nombre obtenus et non les bits générés, nous fixons la valeur de d à 4. et de manière conforme au test précédent, nous retrouvons des valeurs supérieures à 1% pour Mersenne Twitser, Randu et Standard Minimal et une valeur non attribuée pour Von Neumann et parfois 0. Il est intéressant de remarquer que Randu passe également ce test et pourrait nous laisser penser qu'il est, en réalité, capable de produire des suite de nombres conforme au pseudo-aléatoire si nous n'avions pas réalisé le premier test de fréquence monobit. 
