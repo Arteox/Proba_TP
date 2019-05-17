@@ -110,3 +110,49 @@ print(orderMT/100)
 print(orderVN/100) #resultat bizarre car vn a souvent des valeurs avec que des 0 en fonction de la seed
 print(orderRND/100)
 print(orderSTD/100)
+
+###########################################################
+##  Files d'attente
+###########################################################
+source('files.R')
+options(digits=5)
+
+#question 6
+liste <- FileMM1(8,12,10)
+#question 7
+plot(EvolClients(liste),type='s')
+
+#application
+lambda <- 14/60
+mu <- 15/60
+D <- 60*1200
+
+liste <- FileMM1(lambda,mu,D)
+evol <- EvolClients(liste)
+plot(evol,type='s')
+
+#question 8
+#calcul du nombre moyen de clients et du temps de presence moyen
+moy_nb_clients <- 0
+moy_tps_presence <- 0
+
+for (i in 1:(nrow(evol))){
+  
+  #nb moyen de clients
+  if (i>1){
+    moy_nb_clients <- moy_nb_clients + (-evol[i-1,1]+evol[i,1]) * evol[i-1,2]
+  }
+  
+  #tps de presence moyen
+  if (i <= length(liste$dep)){
+    moy_tps_presence <- moy_tps_presence + liste$dep[i]-liste$arr[i]
+  }
+  
+}
+moy_nb_clients <- moy_nb_clients/D
+moy_tps_presence <- moy_tps_presence/length(liste$dep)
+
+print(moy_nb_clients)
+print(moy_tps_presence)
+
+
