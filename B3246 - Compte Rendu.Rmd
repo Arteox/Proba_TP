@@ -207,7 +207,8 @@ Pour des valeurs choisies arbitrairement d'alpha (8), mu (12) et D (10), nous ob
   liste <- FileMM1(8,12,10)
 ```
 ```{r visuelQuestion7}
-  plot(EvolClients(liste),type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le systéme')
+  plot(EvolClients(liste),type='s',xlab='Temps (en minutes)',
+       ylab='Nombre de personnes dans le systéme')
 ```
 
 \newpage
@@ -226,7 +227,8 @@ liste <- FileMM1(lambda,mu,D)
 evol <- EvolClients(liste)
 ```
 ```{r visuelApplication}
-plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', main='Représentation 8 personnes/heure')
+plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système',
+     main='Représentation 8 personnes/heure')
 ```
 -- Commentaire :  
 Après avoir réalisé plusieurs observations des graphiques obtenus avec ces paramètres, nous remarquons une convergence en probabilité de l'évolution du nombre de client en fonction du temps.
@@ -241,7 +243,8 @@ liste <- FileMM1(lambda2,mu,D)
 evol <- EvolClients(liste)
 ```
 ```{r visuelApplication2}
-plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', main='Représentation 14 personnes/heure')
+plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système',
+     main='Représentation 14 personnes/heure')
 ```
 -- Commentaire :
 Après avoir réalisé plusieurs observations des graphiques obtenus avec ces paramètres, nous remarquons, comme pour le précédent, une convergence en probabilité de l'évolution du nombre de client en fonction du temps. Cependant, le nombre de client maximal est souvent beaucoup plus élevé que pour les paramétres précédents (mais on pouvait s'y attendre puisqu'on ne fait qu'augmenter le nombre de personnes qui arrivent chaque heure).
@@ -254,7 +257,8 @@ liste <- FileMM1(lambda3,mu,D)
 evol <- EvolClients(liste)
 ```
 ```{r visuelApplication3}
-plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', main='Représentation 15 personnes/heure')
+plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système',
+     main='Représentation 15 personnes/heure')
 ```
 -- Commentaire :
 Après avoir réalisé plusieurs observations du graphique obtenu avec ces paramètres, nous ne sommes pas parvenus à en déduire soit une convergence, soit une divergence en probabilité, nous pensons alors qu'il est impossible de prédire comment va varier cette évolution. Nous nous retrouvons alors dans l'incapacité d'estimer le nombre de clients à chaque instant t, ce qui était possible avec les deux représentations précédentes.
@@ -267,7 +271,8 @@ liste <- FileMM1(lambda4,mu,D)
 evol <- EvolClients(liste)
 ```
 ```{r visuelApplication4}
-plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', main='Représentation 20 personnes/heure')
+plot(evol,type='s',xlab='Temps (en minutes)', ylab='Nombre de personnes dans le système', 
+     main='Représentation 20 personnes/heure')
 ```
 -- Commentaire :
 Après avoir réalisé plusieurs observations du graphique obtenu avec ces paramètres, nous sommes arrivés à la conclusion que l'évolution du nombre de clients en fonction du temps diverge en probabilité. En effet, il y a beaucoup plus d'arrivées que de départs et la file d'attente finit par étre saturée, ce qui augmente de maniére significative le nombre de clients présents dans le systéme au cours du temps.
